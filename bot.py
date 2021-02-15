@@ -20,23 +20,9 @@ def write_to_json_file(data={}):
 '''
 
 client = discord.Client()
-timeNow = datetime
 
-Linkdata = {
-    "exampleid": ["example.com"]
-}
-Classtime = [
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    []
-]
 
-block_times = ["7:57", "8:57", "9:57", "10:57", "13:07", "13:57"]
+block_times = ["7:57", "8:57", "9:57", "10:57", "13:07", "15:56"]
 block_period_data = [ 
     [
         [1,2,3,4,5,6],
@@ -56,25 +42,41 @@ block_period_data = [
 
 am_pm_week = 0
 
+def read_link_data():
+    with open('linkdata.json') as json_file:
+        link_data_json = json_file.read()
+        link_data = json.loads(link_data_json)
+        print(link_data)
+        return link_data
+
+Linkdata = read_link_data()
+
+def edit_link_data(Linkdata):
+    with open('linkdata.json', 'w+') as json_file:
+        json.dump(Linkdata, json_file)
+
 def block_to_period(block):
-    time_week_day = timeNow.datetime.now().strftime("%w")
+    time_week_day = datetime.datetime.now().strftime("%w")
 
     if(time_week_day == 5 or time_week_day == 6):
         print("It's a weekend! F*** off!")
         return 
 
     try:
-        return block_period_data[am_pm_week][int(time_week_day)][block-1]
+        return block_period_data[am_pm_week][int(time_week_day)-1][block-1]
     except:
         print("\nThe day number is >>" + str(int(time_week_day)-1))
         return
+
+def check_for_role(role, id):
+    print("WEFOIJWEOFIJ")
 
 async def send_interval_message():
     await client.wait_until_ready()
     interval = 60
     while not client.is_closed():
 
-        timeFormatted = timeNow.datetime.now().strftime("%H:%M")
+        timeFormatted = datetime.datetime.now().strftime("%H:%M")
         currentBlock = None
 
         for y in range(len(block_times)):
@@ -83,25 +85,23 @@ async def send_interval_message():
                 print("The block has changed !!! >> " + str(currentBlock))
                 break
 
-        if currentBlock:
+        if not currentBlock:
+            print("A check has occured but failed")
 
+        else:
             currentPeriod = block_to_period(currentBlock)
 
             if currentPeriod:
                 print("\nThe period has changed !!! >> " + str(currentPeriod) + "\n")
                 
-                for x in range(len(Classtime[currentPeriod-1])):
+                for userid in Linkdata.keys():
 
-                    userid = Classtime[currentPeriod-1][x]
                     print("messaging this user >> " + str(userid))
 
-                    idperiod = userid.split("|")
+                    classLink = Linkdata[userid][currentPeriod-1]
 
-                    classLink = Linkdata[int(idperiod[0])][int(idperiod[1])-1]
-                    userprofile = await client.fetch_user(int(idperiod[0]))
+                    userprofile = await client.fetch_user(userid)
                     await userprofile.send("Join Your Class Here: " + classLink)
-                
-                print("\n")
 
         await asyncio.sleep(interval)
 
@@ -116,39 +116,29 @@ async def on_message(message):
     args = message.content.split(' ')
 
     if (args[0] == ">createprofile"):
-        Linkdata[message.author.id] = []
+        Linkdata[str(message.author.id)] = ["" for i in range(8)]
+        edit_link_data(Linkdata)
         await message.reply("Created your profile!")
 
     if(args[0] == '>setlink'):
-
         try:
-            Linkdata[message.author.id].append(args[1])
-
+            Linkdata[str(message.author.id)][int(args[2])-1] = args[1]
+            edit_link_data(Linkdata)
         except:
+            if (not args[2]):
+                await message.reply("Please provide a link and its corresponding period number!")
+                return 
             await message.reply("Do >createprofile first! :)")
             return
 
-        try:
-            Classtime[int(args[2])-1].append(str(message.author.id) + " | " + args[2])
-
-        except:
-            print("an error has happened")
-
         print("All Link Information >> ", Linkdata)
-        print("All Classtime Infromation >> ", Classtime, "\n")
 
         await message.reply("Added link for " + str(message.author))
 
     if (message.content.startswith('>deleteprofile')):
 
-        del Linkdata[message.author.id]
+        del Linkdata[str(message.author.id)]
         await message.reply(str(message.author.id) + "'s profile has been deleted")
-
-        for y in range(len(Classtime)):
-            try:
-                Classtime[y].remove(str(message.author.id) + "|" + str(y+1))
-            except:
-                pass
 
 client.run("Nzk5NzYyMzUzMjU1NDgxMzg0.YAISuw.SXOXjdmOd5qyzVUVWeA1c6Z4En4")
 
