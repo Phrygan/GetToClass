@@ -54,6 +54,7 @@ Linkdata = read_link_data()
 def edit_link_data(Linkdata):
     with open('linkdata.json', 'w+') as json_file:
         json.dump(Linkdata, json_file)
+        return
 
 def block_to_period(block):
     time_week_day = datetime.datetime.now().strftime("%w")
@@ -68,8 +69,53 @@ def block_to_period(block):
         print("\nThe day number is >>" + str(int(time_week_day)-1))
         return
 
-def check_for_role(role, id):
-    print("WEFOIJWEOFIJ")
+async def check_for_role(role, userid):
+    server = client.get_guild(799773078557163541)
+    user_member = await server.fetch_member(userid)
+    for user_role in user_member.roles:
+        if(user_role.id == role):
+            return True
+    return False
+
+async def createprofile(message):
+    Linkdata[str(message.author.id)] = ["" for i in range(8)]
+    edit_link_data(Linkdata)
+    await message.reply("Created your profile!")
+
+async def setLink(message):
+
+    args = message.content.split(' ')
+
+    try:
+        Linkdata[str(message.author.id)][int(args[2])-1] = args[1]
+        edit_link_data(Linkdata)
+    except:
+        if (not args[2]):
+            await message.reply("Please provide a link and its corresponding period number!")
+            return 
+        await message.reply("Do >createprofile first!")
+        return
+
+    print("All Link Information >> ", Linkdata)
+
+    await message.reply("Added link for " + str(message.author))
+
+async def deleteProfile(message):
+    del Linkdata[str(message.author.id)]
+    edit_link_data(Linkdata)
+    await message.reply(str(message.author.id) + "'s profile has been deleted.")
+
+async def ampmweek(message):
+
+    args = message.content.split(' ')
+
+    if(await check_for_role(811698025600122942, message.author.id)):
+        if(args[1] == 'am'):
+            ampmweek = 0
+        elif(args[1] == 'pm'):
+            ampmweek = 1
+        print("\nampmweek is now set to >> " + str(ampmweek))
+
 
 async def send_interval_message():
     await client.wait_until_ready()
@@ -113,32 +159,24 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+
     args = message.content.split(' ')
 
-    if (args[0] == ">createprofile"):
-        Linkdata[str(message.author.id)] = ["" for i in range(8)]
-        edit_link_data(Linkdata)
-        await message.reply("Created your profile!")
+    if(args[0] == ">createprofile"):
+        await createprofile(message)
 
-    if(args[0] == '>setlink'):
-        try:
-            Linkdata[str(message.author.id)][int(args[2])-1] = args[1]
-            edit_link_data(Linkdata)
-        except:
-            if (not args[2]):
-                await message.reply("Please provide a link and its corresponding period number!")
-                return 
-            await message.reply("Do >createprofile first! :)")
-            return
+    elif(args[0] == '>setlink'):
+        await setLink(message)
 
-        print("All Link Information >> ", Linkdata)
+    elif(args[0] == '>deleteprofile'):
+        await deleteProfile(message)
 
-        await message.reply("Added link for " + str(message.author))
+    elif(args[0] == '>ampmweek'):
+        await ampmweek(message)
 
-    if (message.content.startswith('>deleteprofile')):
+    #if(args[0] == '>test'):
+        #await test(message)
 
-        del Linkdata[str(message.author.id)]
-        await message.reply(str(message.author.id) + "'s profile has been deleted")
 
 client.run("Nzk5NzYyMzUzMjU1NDgxMzg0.YAISuw.SXOXjdmOd5qyzVUVWeA1c6Z4En4")
 
