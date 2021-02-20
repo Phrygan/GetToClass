@@ -5,21 +5,9 @@ import time
 import asyncio
 import json
 
-'''
-import json
-
-
-def write_to_json_file(data={}):
-    with open('linkdata.json') as json_file:
-        json_data = json_file.read()
-        json_data_formatted = json.loads(json_data)
-
-    with open('linkdata.json', 'w+') as json_file:
-        json_data_formatted.update(data)
-        json.dump(json_data_formatted, json_file)
-'''
-
-client = discord.Client()
+ROLE_VOLUNTEER = 811698025600122942
+GUILD_ID = 799773078557163541
+LINKDATA_FILE = 'linkdata.json'
 BLOCK_TIMES = ["7:57", "8:57", "9:57", "10:57", "13:07", "13:52"]
 BLOCK_PERIOD_DATA = [ 
     [
@@ -37,10 +25,17 @@ BLOCK_PERIOD_DATA = [
         [5,6,7,8,3,4]
     ]
 ]
+
+COMMANDS = {
+    'createprofile': create_profile,
+    'setlink': set_link,
+    'deleteprofile': delete_profile,
+    'ampmweek': am_pm_week
+}
+
 am_pm_week = 0
-ROLE_VOLUNTEER = 811698025600122942
-GUILD_ID = 799773078557163541
-LINKDATA_FILE = 'linkdata.json'
+
+client = discord.Client()
 
 def read_link_data():
     with open(LINKDATA_FILE) as json_file:
@@ -48,6 +43,7 @@ def read_link_data():
         link_data = json.loads(link_data_json)
         print(link_data)
         return link_data
+
 Linkdata = read_link_data()
 
 def edit_link_data(Linkdata):
@@ -145,16 +141,9 @@ async def on_ready():
 @client.event
 async def on_message(message):
     args = message.content.split(' ')
-    if(args[0] == ">create_profile"):
-        await create_profile(message)
-    elif(args[0] == '>set_link'):
-        await set_link(message)
-    elif(args[0] == '>delete_profile'):
-        await delete_profile(message)
-    elif(args[0] == '>am_pm_week'):
-        await am_pm_week(message)
-    #if(args[0] == '>test'):
-        #await test(message)
+    for command in COMMANDS.keys():
+        if '>' + str(command) == args[0]:
+            COMMANDS[command](message)
 
 client.run("Nzk5NzYyMzUzMjU1NDgxMzg0.YAISuw.SXOXjdmOd5qyzVUVWeA1c6Z4En4")
 
