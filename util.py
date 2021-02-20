@@ -41,12 +41,11 @@ def edit_link_data(link_data):
 def block_to_period(block):
     time_week_day = datetime.datetime.now().strftime("%w")
     if(time_week_day == 5 or time_week_day == 6):
-        print("It's a weekend! F*** off!")
         return 
     try:
         return BLOCK_PERIOD_DATA[am_pm_week][int(time_week_day)-1][block-1]
     except:
-        print("\nThe day number is >>" + str(int(time_week_day)-1))
+        print_log("Error/block_to_period", f"Error that shouldn't be possible has occured... Day of the week is {time_week_day}")
 
 async def check_for_role(client, role, userid):
     server = client.get_guild(GUILD_ID)
@@ -55,3 +54,6 @@ async def check_for_role(client, role, userid):
         if(user_role.id == role):
             return True
     return False
+
+def print_log(log_type, log_message):
+    print(f"\n[{datetime.datetime.now().strftime('%x')}] [{log_type}]: {log_message}")
