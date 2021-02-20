@@ -36,7 +36,7 @@ async def send_interval_message():
 @client.event
 async def on_ready():
     print("Bot is ONLINE\n")
-    await client.change_presence(status=discord.Status.idle, activity=discord.Game("ver 0.0.1"))
+    await client.change_presence(status=discord.Status.idle, activity=discord.Game("ver 0.0"))
     client.loop.create_task(send_interval_message())
 
 @client.event
