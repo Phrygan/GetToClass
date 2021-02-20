@@ -12,6 +12,7 @@ class Create_Profile(Command):
         util.link_data[str(message.author.id)] = ["" for i in range(8)]
         util.edit_link_data(util.link_data)
         await message.reply("Created your profile!")
+        util.print_log("link_data/edit", f"{message.author.id} has initialized their profile")
 
 class Set_Link(Command):
     call = [">setlink"]
@@ -26,9 +27,9 @@ class Set_Link(Command):
             if (not args[2]):
                 await message.reply("Please provide a link and its corresponding period number!")
                 return 
-            await message.reply("Do >create_profile first!")
+            await message.reply("Do >createprofile first!")
 
-        print("All Link Information >> ", util.link_data)
+        util.print_log("link_data/edit", f"{message.author.id} has added a link")
 
         await message.reply("Added link for " + str(message.author))
 
@@ -40,6 +41,7 @@ class Delete_Profile(Command):
         del util.link_data[str(message.author.id)]
         util.edit_link_data(util.link_data)
         await message.reply(str(message.author.id) + "'s profile has been deleted.")
+        util.print_log("link_data/edit", f"{message.author.id} has deleted their profile")
 
 class Change_Am_Pm_week(Command):
     call = [">changeampmweek"]
@@ -52,7 +54,7 @@ class Change_Am_Pm_week(Command):
                 am_pm_week = 0
             elif(command_args[1] == 'pm'):
                 am_pm_week = 1
-            print("\nam_pm_week is now set to >> " + str(am_pm_week))
+            util.print_log("am_pm_week/edit", f"{message.author.id} has adjusted am_pm_week to {am_pm_week}")
 
 Command.commands = Command.__subclasses__()
 

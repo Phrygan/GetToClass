@@ -18,16 +18,13 @@ async def send_interval_message():
         for y in range(len(util.BLOCK_TIMES)):
             if util.BLOCK_TIMES[y] == timeFormatted:
                 currentBlock = y + 1
-                print("The block has changed !!! >> " + str(currentBlock))
                 break
-        if not currentBlock:
-            print("A check has occured but failed")
-        else:
+        if currentBlock:
             currentPeriod = util.block_to_period(currentBlock)
             if currentPeriod:
-                print("\nThe period has changed !!! >> " + str(currentPeriod) + "\n")
+                util.print_log("currentPeriod/change", f"Current Period is now {currentPeriod}")
                 for userid in util.link_data.keys():
-                    print("messaging this user >> " + str(userid))
+                    util.print_log("message", f"messaging {userid} their class link")
                     classLink = util.link_data[userid][currentPeriod-1]
                     userprofile = await client.fetch_user(userid)
                     await userprofile.send("Join Your Class Here: " + classLink)
