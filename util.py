@@ -35,7 +35,8 @@ link_data = read_link_data()
 
 def edit_link_data(link_data):
     with open(LINKDATA_FILE, 'w+') as json_file:
-        json.dump(link_data, json_file)
+        json_file.write(json.dumps(link_data, indent=4))
+        # json.dump(link_data, indent=4)
 
 def block_to_period(block):
     time_week_day = datetime.datetime.now().strftime("%w")
