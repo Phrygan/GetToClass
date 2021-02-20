@@ -3,7 +3,10 @@ import datetime
 
 ROLE_VOLUNTEER = 811698025600122942
 GUILD_ID = 799773078557163541
+
 LINKDATA_FILE = 'link_data.json'
+LOG_FILE_DIR = 'log.txt'
+
 BLOCK_TIMES = ["7:57", "8:57", "9:57", "10:57", "13:07", "13:52"]
 BLOCK_PERIOD_DATA = [ 
     [
@@ -28,7 +31,6 @@ def read_link_data():
     with open(LINKDATA_FILE) as json_file:
         link_data_json = json_file.read()
         link_data = json.loads(link_data_json)
-        print(link_data)
         return link_data
 
 link_data = read_link_data()
@@ -56,4 +58,8 @@ async def check_for_role(client, role, userid):
     return False
 
 def print_log(log_type, log_message):
-    print(f"\n[{datetime.datetime.now().strftime('%x')}] [{log_type}]: {log_message}")
+    print(f"[{datetime.datetime.now().strftime('%x')} | {datetime.datetime.now().strftime('%X')}] [{log_type}]: {log_message}")
+    
+    log_file = open(LOG_FILE_DIR, "w")
+    log_file.write(f"[{datetime.datetime.now().strftime('%x')} | {datetime.datetime.now().strftime('%X')}] [{log_type}]: {log_message}")
+    log_file.close()
