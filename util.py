@@ -55,3 +55,6 @@ async def check_for_role(client, role, userid):
         if(user_role.id == role):
             return True
     return False
+
+def print_log(log_type, log_message):
+    print(f"\n[{datetime.datetime.now().strftime('%x')}] [{log_type}]: {log_message}")
