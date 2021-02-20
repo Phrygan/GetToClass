@@ -25,6 +25,9 @@ BLOCK_PERIOD_DATA = [
     ]
 ]
 
+ADMIN_COMMAND_LOG_TYPE = "Admin Command"
+ADMIN_SUPPORTED_VARIABLES = locals()
+
 am_pm_week = 0
 
 def read_link_data():

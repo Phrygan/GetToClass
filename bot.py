@@ -6,7 +6,7 @@ import asyncio
 from threading import Thread
 
 import util
-import Command
+from Command import Command
 import AdminCommand
 
 client = discord.Client()
@@ -35,14 +35,12 @@ async def send_interval_message():
                         description = 'this is a description',
                         colour = discord.Colour.blue()
                     )
-
                     await userprofile.send("Join Your Class Here: " + classLink)
         await asyncio.sleep(interval)
 
 def admin_terminal():
     while not client.is_closed():
         admin_in = input()
-        
         if ' ' in admin_in:
             admin_in.split(' ')
             admin_command_call = admin_in[0]
@@ -56,14 +54,14 @@ def admin_terminal():
 
 @client.event
 async def on_ready():
-    print("Bot is ONLINE\n")
+    print("Bot is ONLINE")
     await client.change_presence(status=discord.Status.idle, activity=discord.Game("ver 0.0"))
     client.loop.create_task(send_interval_message())
 
 @client.event
 async def on_message(message):
     args = message.content.split(' ')
-    for command in Command.Command.commands:
+    for command in Command.commands:
         if args[0] in command.call:
             await command.run(message, client)
 
@@ -74,7 +72,6 @@ def main():
         daemon=True)
     discord_bot_thread.start()
     admin_terminal()
-    
 
 if __name__ == '__main__':
     main()
