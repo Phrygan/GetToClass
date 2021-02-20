@@ -48,7 +48,7 @@ async def on_message(message):
     args = message.content.split(' ')
     for command in Command.Command.commands:
         if args[0] in command.call:
-            command.run(message, client)
+            await command.run(message, client)
 
 client.run("Nzk5NzYyMzUzMjU1NDgxMzg0.YAISuw.SXOXjdmOd5qyzVUVWeA1c6Z4En4")
 

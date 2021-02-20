@@ -9,8 +9,8 @@ class Create_Profile(Command):
 
     @classmethod
     async def run(cls, message, *args):
-        Linkdata[str(message.author.id)] = ["" for i in range(8)]
-        util.edit_link_data(util.Linkdata)
+        util.link_data[str(message.author.id)] = ["" for i in range(8)]
+        util.edit_link_data(util.link_data)
         await message.reply("Created your profile!")
 
 class Set_Link(Command):
