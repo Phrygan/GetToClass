@@ -20,9 +20,7 @@ def write_to_json_file(data={}):
 '''
 
 client = discord.Client()
-
-
-block_times = ["7:57", "8:57", "9:57", "10:57", "13:07", "15:56"]
+block_times = ["7:57", "8:57", "9:57", "10:57", "13:07", "13:52"]
 block_period_data = [ 
     [
         [1,2,3,4,5,6],
@@ -39,7 +37,6 @@ block_period_data = [
         [5,6,7,8,3,4]
     ]
 ]
-
 am_pm_week = 0
 
 def read_link_data():
@@ -48,7 +45,6 @@ def read_link_data():
         link_data = json.loads(link_data_json)
         print(link_data)
         return link_data
-
 Linkdata = read_link_data()
 
 def edit_link_data(Linkdata):
@@ -58,11 +54,9 @@ def edit_link_data(Linkdata):
 
 def block_to_period(block):
     time_week_day = datetime.datetime.now().strftime("%w")
-
     if(time_week_day == 5 or time_week_day == 6):
         print("It's a weekend! F*** off!")
         return 
-
     try:
         return block_period_data[am_pm_week][int(time_week_day)-1][block-1]
     except:
@@ -83,9 +77,7 @@ async def createprofile(message):
     await message.reply("Created your profile!")
 
 async def setLink(message):
-
     args = message.content.split(' ')
-
     try:
         Linkdata[str(message.author.id)][int(args[2])-1] = args[1]
         edit_link_data(Linkdata)
@@ -105,38 +97,32 @@ async def deleteProfile(message):
     edit_link_data(Linkdata)
     await message.reply(str(message.author.id) + "'s profile has been deleted.")
 
-async def ampmweek(message):
+async def am_pm_week(message):
 
     args = message.content.split(' ')
 
     if(await check_for_role(811698025600122942, message.author.id)):
         if(args[1] == 'am'):
-            ampmweek = 0
+            am_pm_week = 0
         elif(args[1] == 'pm'):
-            ampmweek = 1
-        print("\nampmweek is now set to >> " + str(ampmweek))
-
+            am_pm_week = 1
+        print("\nam_pm_week is now set to >> " + str(am_pm_week))
 
 async def send_interval_message():
     await client.wait_until_ready()
     interval = 60
     while not client.is_closed():
-
         timeFormatted = datetime.datetime.now().strftime("%H:%M")
         currentBlock = None
-
         for y in range(len(block_times)):
             if block_times[y] == timeFormatted:
                 currentBlock = y + 1
                 print("The block has changed !!! >> " + str(currentBlock))
                 break
-
         if not currentBlock:
             print("A check has occured but failed")
-
         else:
             currentPeriod = block_to_period(currentBlock)
-
             if currentPeriod:
                 print("\nThe period has changed !!! >> " + str(currentPeriod) + "\n")
                 
@@ -148,7 +134,6 @@ async def send_interval_message():
 
                     userprofile = await client.fetch_user(userid)
                     await userprofile.send("Join Your Class Here: " + classLink)
-
         await asyncio.sleep(interval)
 
 @client.event
@@ -159,24 +144,17 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-
     args = message.content.split(' ')
-
     if(args[0] == ">createprofile"):
         await createprofile(message)
-
     elif(args[0] == '>setlink'):
         await setLink(message)
-
     elif(args[0] == '>deleteprofile'):
         await deleteProfile(message)
-
-    elif(args[0] == '>ampmweek'):
-        await ampmweek(message)
-
+    elif(args[0] == '>am_pm_week'):
+        await am_pm_week(message)
     #if(args[0] == '>test'):
         #await test(message)
-
 
 client.run("Nzk5NzYyMzUzMjU1NDgxMzg0.YAISuw.SXOXjdmOd5qyzVUVWeA1c6Z4En4")
 
