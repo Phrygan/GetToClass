@@ -27,6 +27,13 @@ async def send_interval_message():
                     util.print_log("message", f"messaging {userid} their class link")
                     classLink = util.link_data[userid][currentPeriod-1]
                     userprofile = await client.fetch_user(userid)
+
+                    dm_embed = discord.Embed(
+                        title = 'title',
+                        description = 'this is a description',
+                        colour = discord.Colour.blue()
+                    )
+
                     await userprofile.send("Join Your Class Here: " + classLink)
         await asyncio.sleep(interval)
 

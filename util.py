@@ -59,7 +59,7 @@ async def check_for_role(client, role, userid):
 
 def print_log(log_type, log_message):
     print(f"[{datetime.datetime.now().strftime('%x')} | {datetime.datetime.now().strftime('%X')}] [{log_type}]: {log_message}")
-    
-    log_file = open(LOG_FILE_DIR, "w")
-    log_file.write(f"[{datetime.datetime.now().strftime('%x')} | {datetime.datetime.now().strftime('%X')}] [{log_type}]: {log_message}")
+
+    log_file = open(LOG_FILE_DIR, "a")
+    log_file.write(f"[{datetime.datetime.now().strftime('%x')} | {datetime.datetime.now().strftime('%X')}] [{log_type}]: {log_message}\n")
     log_file.close()
