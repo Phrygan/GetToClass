@@ -8,7 +8,7 @@ class ShowAmPm(AdminCommand):
 
     @classmethod
     def run(cls, *args):
-        print("Today is: " + "AM" if util.am_pm_week == 0 else "PM")
+        print("This week is: " + "AM" if util.am_pm_week == 0 else "PM")
 
 
 
