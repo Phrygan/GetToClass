@@ -43,7 +43,6 @@ def admin_terminal():
         else:
             admin_command_call = admin_in
             admin_command_args = None
-        print(f'actual: {util.am_pm_week}')
         for admin_command in AdminCommand.AdminCommand.admin_commands:
             if admin_command_call in admin_command.call:
                 admin_command.run(admin_command_args)
