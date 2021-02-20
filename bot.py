@@ -26,13 +26,9 @@ async def send_interval_message():
             currentPeriod = util.block_to_period(currentBlock)
             if currentPeriod:
                 print("\nThe period has changed !!! >> " + str(currentPeriod) + "\n")
-                
                 for userid in util.link_data.keys():
-
                     print("messaging this user >> " + str(userid))
-
                     classLink = util.link_data[userid][currentPeriod-1]
-
                     userprofile = await client.fetch_user(userid)
                     await userprofile.send("Join Your Class Here: " + classLink)
         await asyncio.sleep(interval)
