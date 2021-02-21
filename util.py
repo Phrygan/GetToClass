@@ -45,7 +45,7 @@ def edit_link_data(link_data):
 
 def block_to_period(block):
     time_week_day = datetime.datetime.now().strftime("%w")
-    if(time_week_day == 5 or time_week_day == 6):
+    if(time_week_day == 0 or time_week_day == 6):
         return 
     try:
         return BLOCK_PERIOD_DATA[am_pm_week][int(time_week_day)-1][block-1]
