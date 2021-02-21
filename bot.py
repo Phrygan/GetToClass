@@ -6,8 +6,8 @@ import asyncio
 from threading import Thread
 
 import util
-import Command
-import AdminCommand
+from Command import Command
+from AdminCommand import AdminCommand
 
 client = discord.Client()
 
@@ -49,7 +49,7 @@ def admin_terminal():
         else:
             admin_command_call = admin_in
             admin_command_args = None
-        for admin_command in AdminCommand.AdminCommand.admin_commands:
+        for admin_command in AdminCommand.admin_commands:
             if admin_command_call in admin_command.call:
                 admin_command.run(admin_command_args)
 

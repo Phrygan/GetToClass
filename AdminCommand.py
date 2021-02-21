@@ -32,7 +32,7 @@ class Reboot(AdminCommand):
     @classmethod
     def run(cls, *args):
         print_log(ADMIN_COMMAND_LOG_TYPE, "Discord bot rebooting...\n")
-        os.system('python bot.py')
+        os.system('python -m bot')
         exit()
 
 AdminCommand.admin_commands = AdminCommand.__subclasses__()
