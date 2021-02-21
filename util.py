@@ -31,8 +31,8 @@ ADMIN_SUPPORTED_VARIABLES = locals()
 am_pm_week = 0
 
 def update_link_data(func, *args):
-    def wrapper_update_link_data(args):
-        func(args)
+    def wrapper_update_link_data(method, *args):
+        func(method, args)
         edit_link_data()
     return wrapper_update_link_data
 
