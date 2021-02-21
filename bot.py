@@ -1,4 +1,3 @@
-#!./venv36/Scripts/python
 import os
 import discord
 import time
@@ -7,8 +6,8 @@ import asyncio
 from threading import Thread
 
 import util
-import Command
-import AdminCommand
+from Command import Command
+from AdminCommand import AdminCommand
 
 client = discord.Client()
 
@@ -38,7 +37,7 @@ async def send_interval_message():
 
                     dm_embed.add_field(name=f'Period {currentPeriod}', value=f'Link: {classLink}', inline=True)
                     await userprofile.send(embed=dm_embed)
-                await asyncio.sleep(interval)
+        await asyncio.sleep(interval)
                 
 def admin_terminal():
     while not client.is_closed():
@@ -50,7 +49,7 @@ def admin_terminal():
         else:
             admin_command_call = admin_in
             admin_command_args = None
-        for admin_command in AdminCommand.AdminCommand.admin_commands:
+        for admin_command in AdminCommand.admin_commands:
             if admin_command_call in admin_command.call:
                 admin_command.run(admin_command_args)
 
@@ -71,7 +70,7 @@ def main():
     print("Discord bot booting (this may take a few seconds)...")
     discord_bot_thread = Thread(
         target=client.run, 
-        args=("Nzk5NzYyMzUzMjU1NDgxMzg0.YAISuw.SXOXjdmOd5qyzVUVWeA1c6Z4En4", ),
+        args=(util.get_discord_key(), ),
         daemon=True)
     discord_bot_thread.start()
     admin_terminal()
