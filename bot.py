@@ -37,7 +37,7 @@ async def send_interval_message():
 
                     dm_embed.add_field(name=f'Period {currentPeriod}', value=f'Link: {classLink}', inline=True)
                     await userprofile.send(embed=dm_embed)
-                await asyncio.sleep(interval)
+        await asyncio.sleep(interval)
                 
 def admin_terminal():
     while not client.is_closed():
