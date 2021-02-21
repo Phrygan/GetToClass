@@ -3,9 +3,11 @@ import discord
 import time
 import datetime
 import asyncio
+from threading import Thread
 
 import util
 import Command
+import AdminCommand
 
 client = discord.Client()
 
@@ -29,19 +31,35 @@ async def send_interval_message():
                     userprofile = await client.fetch_user(userid)
 
                     dm_embed = discord.Embed(
-                        title = 'title',
-                        description = 'this is a description',
+                        title = 'JOIN YOUR CLASS HERE!',
                         colour = discord.Colour.blue()
                     )
 
-                    await userprofile.send("Join Your Class Here: " + classLink)
-        await asyncio.sleep(interval)
+                    dm_embed.add_field(name=f'Period {currentPeriod}', value=f'Link: {classLink}', inline=True)
+                    await userprofile.send(embed=dm_embed)
+                await asyncio.sleep(interval)
+
+def admin_terminal():
+    while not client.is_closed():
+        admin_in = input()
+        
+        if ' ' in admin_in:
+            admin_in.split(' ')
+            admin_command_call = admin_in[0]
+            admin_command_args = admin_in[1:]
+        else:
+            admin_command_call = admin_in
+            admin_command_args = None
+        print(f'actual: {util.am_pm_week}')
+        for admin_command in AdminCommand.AdminCommand.admin_commands:
+            if admin_command_call in admin_command.call:
+                admin_command.run(admin_command_args)
 
 @client.event
 async def on_ready():
     print("Bot is ONLINE\n")
-    await client.change_presence(status=discord.Status.idle, activity=discord.Game("ver 0.0"))
-    client.loop.create_task(send_interval_message())
+    await client.change_presence(status=discord.Status.idle, activity=discord.Game("ver 0.1"))
+    client.loop.create_task(send_interval_message())   
 
 @client.event
 async def on_message(message):
@@ -50,6 +68,15 @@ async def on_message(message):
         if args[0] in command.call:
             await command.run(message, client)
 
-client.run("Nzk5NzYyMzUzMjU1NDgxMzg0.YAISuw.SXOXjdmOd5qyzVUVWeA1c6Z4En4")
+def main():
+    discord_bot_thread = Thread(
+        target=client.run, 
+        args=("Nzk5NzYyMzUzMjU1NDgxMzg0.YAISuw.SXOXjdmOd5qyzVUVWeA1c6Z4En4", ),
+        daemon=True)
+    discord_bot_thread.start()
+    admin_terminal()
+    
 
+if __name__ == '__main__':
+    main()
 
