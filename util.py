@@ -62,8 +62,7 @@ async def check_for_role(client, role, userid):
 
 def get_discord_key():
     with open('discord_key.txt', 'r') as discord_key_file:
-        key = discord_key_file.read()
-        return key
+        return discord_key_file.read()
 
 def print_log(log_type, log_message):
     print(f"[{datetime.datetime.now().strftime('%x')} | {datetime.datetime.now().strftime('%X')}] [{log_type}]: {log_message}")
