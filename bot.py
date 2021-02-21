@@ -38,11 +38,10 @@ async def send_interval_message():
                     dm_embed.add_field(name=f'Period {currentPeriod}', value=f'Link: {classLink}', inline=True)
                     await userprofile.send(embed=dm_embed)
                 await asyncio.sleep(interval)
-
+                
 def admin_terminal():
     while not client.is_closed():
         admin_in = input()
-        
         if ' ' in admin_in:
             admin_in.split(' ')
             admin_command_call = admin_in[0]
@@ -50,7 +49,6 @@ def admin_terminal():
         else:
             admin_command_call = admin_in
             admin_command_args = None
-        print(f'actual: {util.am_pm_week}')
         for admin_command in AdminCommand.AdminCommand.admin_commands:
             if admin_command_call in admin_command.call:
                 admin_command.run(admin_command_args)
@@ -64,7 +62,7 @@ async def on_ready():
 @client.event
 async def on_message(message):
     args = message.content.split(' ')
-    for command in Command.Command.commands:
+    for command in Command.commands:
         if args[0] in command.call:
             await command.run(message, client)
 
@@ -76,7 +74,6 @@ def main():
     discord_bot_thread.start()
     admin_terminal()
     
-
 if __name__ == '__main__':
     main()
 
