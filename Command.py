@@ -7,8 +7,8 @@ class Command():
 class Create_Profile(Command):
     call = [">createprofile"]
 
-    @util.update_link_data
     @classmethod
+    @util.update_link_data
     async def run(cls, message, *args):
         util.link_data[str(message.author.id)] = ["" for i in range(8)]
         await message.reply("Created your profile!")
