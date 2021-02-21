@@ -7,22 +7,22 @@ class Command():
 class Create_Profile(Command):
     call = [">createprofile"]
 
+    @util.update_link_data
     @classmethod
     async def run(cls, message, *args):
         util.link_data[str(message.author.id)] = ["" for i in range(8)]
-        util.edit_link_data(util.link_data)
         await message.reply("Created your profile!")
         util.print_log("link_data/edit", f"{message.author.id} has initialized their profile")
 
 class Set_Link(Command):
     call = [">setlink"]
 
+    @util.update_link_data
     @classmethod
     async def run(cls, message, *args):
         args = message.content.split(' ')
         try:
             util.link_data[str(message.author.id)][int(args[2])-1] = args[1]
-            util.edit_link_data(util.link_data)
         except:
             if (not args[2]):
                 await message.reply("Please provide a link and its corresponding period number!")
@@ -36,10 +36,10 @@ class Set_Link(Command):
 class Delete_Profile(Command):
     call = [">deleteprofile"]
 
+    @util.update_link_data
     @classmethod
     async def run(cls, message, *args):
         del util.link_data[str(message.author.id)]
-        util.edit_link_data(util.link_data)
         await message.reply(str(message.author.id) + "'s profile has been deleted.")
         util.print_log("link_data/edit", f"{message.author.id} has deleted their profile")
 

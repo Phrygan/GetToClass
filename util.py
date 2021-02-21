@@ -30,6 +30,12 @@ ADMIN_SUPPORTED_VARIABLES = locals()
 
 am_pm_week = 0
 
+def update_link_data(func):
+    def wrapper_update_link_data():
+        func()
+        edit_link_data()
+    return wrapper_update_link_data
+
 def read_link_data():
     with open(LINKDATA_FILE) as json_file:
         link_data_json = json_file.read()
@@ -38,7 +44,7 @@ def read_link_data():
 
 link_data = read_link_data()
 
-def edit_link_data(link_data):
+def edit_link_data():
     with open(LINKDATA_FILE, 'w+') as json_file:
         json_file.write(json.dumps(link_data, indent=4))
         # json.dump(link_data, indent=4)
