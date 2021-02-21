@@ -1,4 +1,3 @@
-#!./venv36/Scripts/python
 import os
 import discord
 import time
@@ -71,7 +70,7 @@ def main():
     print("Discord bot booting (this may take a few seconds)...")
     discord_bot_thread = Thread(
         target=client.run, 
-        args=("Nzk5NzYyMzUzMjU1NDgxMzg0.YAISuw.SXOXjdmOd5qyzVUVWeA1c6Z4En4", ),
+        args=(util.get_discord_key(), ),
         daemon=True)
     discord_bot_thread.start()
     admin_terminal()
