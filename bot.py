@@ -26,15 +26,17 @@ async def send_interval_message():
             currentPeriod = util.block_to_period(currentBlock)
             if currentPeriod:
                 print("\nThe period has changed !!! >> " + str(currentPeriod) + "\n")
-                
                 for userid in util.link_data.keys():
-
                     print("messaging this user >> " + str(userid))
-
                     classLink = util.link_data[userid][currentPeriod-1]
-
+                    dm_embed = discord.Embed(
+                        title = 'JOIN YOUR CLASS HERE!',
+                        description = 'hi',
+                        colour = discord.Colour.blue()
+                    )
+                    dm_embed.add_field(name=f'Period {currentPeriod}', value=f'Link: {classLink}', inline=True)
                     userprofile = await client.fetch_user(userid)
-                    await userprofile.send("Join Your Class Here: " + classLink)
+                    await userprofile.send(embed=dm_embed)
         await asyncio.sleep(interval)
 
 @client.event
@@ -42,16 +44,6 @@ async def on_ready():
     print("Bot is ONLINE\n")
     await client.change_presence(status=discord.Status.idle, activity=discord.Game("ver 0.0.1"))
     client.loop.create_task(send_interval_message())
-
-    userprofile = await client.fetch_user(425757751961059343)
-
-    dm_embed = discord.Embed(
-        title = 'JOIN YOUR CLASS HERE!',
-        description = 'hi',
-        colour = discord.Colour.blue()
-    )
-    dm_embed.add_field(name=f'Period 1', value=f'Link: HI EUGAAUR', inline=True)
-    await userprofile.send(embed=dm_embed) 
 
 @client.event
 async def on_message(message):
