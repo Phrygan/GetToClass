@@ -43,6 +43,16 @@ async def on_ready():
     await client.change_presence(status=discord.Status.idle, activity=discord.Game("ver 0.0.1"))
     client.loop.create_task(send_interval_message())
 
+    userprofile = await client.fetch_user(425757751961059343)
+
+    dm_embed = discord.Embed(
+        title = 'JOIN YOUR CLASS HERE!',
+        description = 'hi',
+        colour = discord.Colour.blue()
+    )
+    dm_embed.add_field(name=f'Period 1', value=f'Link: HI EUGAAUR', inline=True)
+    await userprofile.send(embed=dm_embed) 
+
 @client.event
 async def on_message(message):
     args = message.content.split(' ')
