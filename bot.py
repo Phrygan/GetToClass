@@ -7,7 +7,7 @@ import asyncio
 from threading import Thread
 
 import util
-from Command import Command
+import Command
 import AdminCommand
 
 client = discord.Client()
@@ -32,13 +32,14 @@ async def send_interval_message():
                     userprofile = await client.fetch_user(userid)
 
                     dm_embed = discord.Embed(
-                        title = 'title',
-                        description = 'this is a description',
+                        title = 'JOIN YOUR CLASS HERE!',
                         colour = discord.Colour.blue()
                     )
-                    await userprofile.send("Join Your Class Here: " + classLink)
-        await asyncio.sleep(interval)
 
+                    dm_embed.add_field(name=f'Period {currentPeriod}', value=f'Link: {classLink}', inline=True)
+                    await userprofile.send(embed=dm_embed)
+                await asyncio.sleep(interval)
+                
 def admin_terminal():
     while not client.is_closed():
         admin_in = input()
@@ -56,7 +57,7 @@ def admin_terminal():
 @client.event
 async def on_ready():
     print("Discord bot is ONLINE")
-    await client.change_presence(status=discord.Status.idle, activity=discord.Game("ver 0.0"))
+    await client.change_presence(status=discord.Status.idle, activity=discord.Game("ver 0.1"))
     client.loop.create_task(send_interval_message())
 
 @client.event
@@ -74,7 +75,7 @@ def main():
         daemon=True)
     discord_bot_thread.start()
     admin_terminal()
-
+    
 if __name__ == '__main__':
     main()
 
