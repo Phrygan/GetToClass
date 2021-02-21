@@ -1,3 +1,6 @@
+import os
+import sys
+
 from util import *
 
 """
@@ -20,23 +23,6 @@ class ClearLog(AdminCommand):
             log_file.write(str())
         print_log(ADMIN_COMMAND_LOG_TYPE, "Log cleared")
 
-class Show(AdminCommand):
-    call = ['show']
-
-    @classmethod
-    def run(cls, *args):
-        pass
-        # if args[0] == None:
-        #     print_log(ADMIN_COMMAND_LOG_TYPE, ADMIN_SUPPORTED_VARIABLES)
-        #     print_log(ADMIN_COMMAND_LOG_TYPE, 'Usage:\nshow [-a] [--all] [<variable_name>]')
-        # elif args[0] in ['-a', '--all']:
-        #     print_log(ADMIN_COMMAND_LOG_TYPE, ADMIN_SUPPORTED_VARIABLES)
-        # elif args[0] in ADMIN_SUPPORTED_VARIABLES.keys():
-        #     print_log(ADMIN_COMMAND_LOG_TYPE, 
-        #               f'{args[0]}: {ADMIN_SUPPORTED_VARIABLES[args[0]]}')
-        # else:
-        #     print_log(ADMIN_COMMAND_LOG_TYPE, f'show does not support {args[0]}')
-
 class ShowAmPm(AdminCommand):
     call = ['showampm']
 
@@ -57,6 +43,8 @@ class Reboot(AdminCommand):
 
     @classmethod
     def run(cls, *args):
-        pass
+        print_log(ADMIN_COMMAND_LOG_TYPE, "Discord bot rebooting (this may take a few seconds)...\n")
+        os.system('python bot.py')
+        exit()
 
 AdminCommand.admin_commands = AdminCommand.__subclasses__()

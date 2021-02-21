@@ -1,3 +1,4 @@
+#!./venv36/Scripts/python
 import os
 import discord
 import time
@@ -54,7 +55,7 @@ def admin_terminal():
 
 @client.event
 async def on_ready():
-    print("Bot is ONLINE")
+    print("Discord bot is ONLINE")
     await client.change_presence(status=discord.Status.idle, activity=discord.Game("ver 0.0"))
     client.loop.create_task(send_interval_message())
 
@@ -66,6 +67,7 @@ async def on_message(message):
             await command.run(message, client)
 
 def main():
+    print("Discord bot booting (this may take a few seconds)...")
     discord_bot_thread = Thread(
         target=client.run, 
         args=("Nzk5NzYyMzUzMjU1NDgxMzg0.YAISuw.SXOXjdmOd5qyzVUVWeA1c6Z4En4", ),
