@@ -25,18 +25,20 @@ async def send_interval_message():
         else:
             currentPeriod = util.block_to_period(currentBlock)
             if currentPeriod:
-                print("\nThe period has changed !!! >> " + str(currentPeriod) + "\n")
+                util.print_log("currentPeriod/change", f"Current Period is now {currentPeriod}")
                 for userid in util.link_data.keys():
-                    print("messaging this user >> " + str(userid))
+                    util.print_log("message", f"messaging {userid} their class link")
                     classLink = util.link_data[userid][currentPeriod-1]
+                    userprofile = await client.fetch_user(userid)
+
                     dm_embed = discord.Embed(
                         title = 'JOIN YOUR CLASS HERE!',
-                        description = 'hi',
                         colour = discord.Colour.blue()
                     )
+
                     dm_embed.add_field(name=f'Period {currentPeriod}', value=f'Link: {classLink}', inline=True)
-                    userprofile = await client.fetch_user(userid)
                     await userprofile.send(embed=dm_embed)
+                await asyncio.sleep(interval)
         await asyncio.sleep(interval)
 
 @client.event
