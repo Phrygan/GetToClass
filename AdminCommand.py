@@ -31,7 +31,7 @@ class Reboot(AdminCommand):
     call = ['reboot']
     @staticmethod
     def run(*args):
-        print_log(ADMIN_COMMAND_LOG_TYPE, "Discord bot rebooting...\n")
+        print_log(ADMIN_COMMAND_LOG_TYPE, "Discord bot rebooting...")
         os.system('python -m bot')
         exit()
 
