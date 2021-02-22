@@ -27,12 +27,4 @@ class Stop(AdminCommand):
         print_log(ADMIN_COMMAND_LOG_TYPE, "Discord bot stopping")
         exit()
 
-class Reboot(AdminCommand):
-    call = ['reboot']
-    @staticmethod
-    def run(*args):
-        print_log(ADMIN_COMMAND_LOG_TYPE, "Discord bot rebooting...")
-        os.system('python -m bot')
-        exit()
-
 AdminCommand.admin_commands = AdminCommand.__subclasses__()
