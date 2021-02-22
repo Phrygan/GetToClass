@@ -53,20 +53,6 @@ def admin_terminal():
             if admin_command_call in admin_command.call:
                 admin_command.run(admin_command_args)
 
-def admin_terminal():
-    while not client.is_closed():
-        admin_in = input()
-        if ' ' in admin_in:
-            admin_in.split(' ')
-            admin_command_call = admin_in[0]
-            admin_command_args = admin_in[1:]
-        else:
-            admin_command_call = admin_in
-            admin_command_args = None
-        for admin_command in AdminCommand.AdminCommand.admin_commands:
-            if admin_command_call in admin_command.call:
-                admin_command.run(admin_command_args)
-
 @client.event
 async def on_ready():
     print("Discord bot is ONLINE")
