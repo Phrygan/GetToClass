@@ -17,8 +17,8 @@ class Create_Profile(Command):
 class Set_Link(Command):
     call = [">setlink"]
 
-    @util.update_link_data
     @staticmethod
+    @util.update_link_data
     async def run(message, *args):
         args = message.content.split(' ')
         try:
@@ -36,8 +36,8 @@ class Set_Link(Command):
 class Delete_Profile(Command):
     call = [">deleteprofile"]
 
-    @util.update_link_data
     @staticmethod
+    @util.update_link_data
     async def run(message, *args):
         del util.link_data[str(message.author.id)]
         await message.reply(str(message.author.id) + "'s profile has been deleted.")
