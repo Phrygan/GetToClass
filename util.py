@@ -7,7 +7,7 @@ GUILD_ID = 799773078557163541
 LINKDATA_FILE = 'link_data.json'
 LOG_FILE_DIR = 'log.txt'
 
-BLOCK_TIMES = ["7:57", "8:57", "9:57", "10:57", "13:07", "13:52"]
+BLOCK_TIMES = ["07:57", "08:57", "09:57", "10:57", "13:07", "13:52"]
 BLOCK_PERIOD_DATA = [ 
     [
         [1,2,3,4,5,6],
