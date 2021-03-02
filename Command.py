@@ -10,9 +10,12 @@ class Create_Profile(Command):
     @staticmethod
     @util.update_link_data
     async def run(message, *args):
-        util.link_data[str(message.author.id)] = ["" for i in range(8)]
-        await message.reply("Created your profile!")
-        util.print_log("link_data/edit", f"{message.author.id} has initialized their profile")
+        if str(message.author.id) not in util.link_data:
+            util.link_data[str(message.author.id)] = ["" for i in range(8)]
+            await message.reply("Created your profile!")
+            util.print_log("link_data/edit", f"{message.author.id} has initialized their profile")
+        else:
+            await message.reply("You already have a profile silly!")
 
 class Set_Link(Command):
     call = [">setlink"]
@@ -20,17 +23,15 @@ class Set_Link(Command):
     @staticmethod
     @util.update_link_data
     async def run(message, *args):
-        args = message.content.split(' ')
+        command_args = message.content.split(' ')
         try:
-            util.link_data[str(message.author.id)][int(args[2])-1] = args[1]
+            util.link_data[str(message.author.id)][int(command_args[2])-1] = command_args[1]
         except:
-            if (not args[2]):
-                await message.reply("Please provide a link and its corresponding period number!")
+            if len(command_args) != 3:
+                await message.reply("Please provide a link and its corresponding period number! Check how #how-to-use for details")
                 return 
             await message.reply("Do >createprofile first!")
-
         util.print_log("link_data/edit", f"{message.author.id} has added a link")
-
         await message.reply("Added link for " + str(message.author))
 
 class Delete_Profile(Command):
