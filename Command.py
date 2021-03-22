@@ -57,6 +57,22 @@ class Change_Am_Pm_week(Command):
                 am_pm_week = 1
             util.print_log("am_pm_week/edit", f"{message.author.id} has adjusted am_pm_week to {am_pm_week}")
 
+class View_Links(Command):
+    call = [">viewprofile"]
+
+    @staticmethod
+    async def run(message, *args):
+        authorid = str(message.author.id)
+        await message.reply(f'''The links for your classes are:
+        1: {util.link_data[authorid][0]}
+        2: {util.link_data[authorid][1]}
+        3: {util.link_data[authorid][2]}
+        4: {util.link_data[authorid][3]}
+        5: {util.link_data[authorid][4]}
+        6: {util.link_data[authorid][5]}
+        7: {util.link_data[authorid][6]}
+        8: {util.link_data[authorid][7]}''')
+
 Command.commands = Command.__subclasses__()
 
     
