@@ -57,7 +57,7 @@ def admin_terminal():
 @client.event
 async def on_ready():
     print("Discord bot is ONLINE")
-    await client.change_presence(status=discord.Status.idle, activity=discord.Game("ver 0.1"))
+    await client.change_presence(status=discord.Status.idle, activity=discord.Game("ver 0.3"))
     client.loop.create_task(send_interval_message())
 
 @client.event
