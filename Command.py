@@ -62,16 +62,13 @@ class View_Links(Command):
 
     @staticmethod
     async def run(message, *args):
-        authorid = str(message.author.id)
-        await message.reply(f'''The links for your classes are:
-        1: {util.link_data[authorid][0]}
-        2: {util.link_data[authorid][1]}
-        3: {util.link_data[authorid][2]}
-        4: {util.link_data[authorid][3]}
-        5: {util.link_data[authorid][4]}
-        6: {util.link_data[authorid][5]}
-        7: {util.link_data[authorid][6]}
-        8: {util.link_data[authorid][7]}''')
+        print(message.author.id)
+
+        try:
+            msg='\n'.join([f"{period + 1}: {util.link_data[str(message.author.id)][period]}" for period in range(8)])
+            await message.reply("Here is a list of all of your class zoom links:\n\n" + msg)
+        except:
+            await message.reply("User not found in GET TO CLASS Database! Do >createprofile first and add links!")
 
 Command.commands = Command.__subclasses__()
 

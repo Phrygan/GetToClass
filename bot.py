@@ -29,14 +29,15 @@ async def send_interval_message():
                     util.print_log("message", f"messaging {userid} their class link")
                     classLink = util.link_data[userid][currentPeriod-1]
                     userprofile = await client.fetch_user(userid)
-
                     dm_embed = discord.Embed(
                         title = 'JOIN YOUR CLASS HERE!',
                         colour = discord.Colour.blue()
                     )
-
                     dm_embed.add_field(name=f'Period {currentPeriod}', value=f'Link: {classLink}', inline=True)
-                    await userprofile.send(embed=dm_embed)
+                    try:
+                        await userprofile.send(embed=dm_embed)
+                    except:
+                        util.print_log("error/blocked", f"Person causing problem is {userid}")
         await asyncio.sleep(interval)
                 
 def admin_terminal():
