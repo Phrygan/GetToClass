@@ -41,7 +41,7 @@ class Delete_Profile(Command):
     @util.update_link_data
     async def run(message, *args):
         command_args = message.content.split(' ')
-        if(command_args[1]):
+        if(len(command_args) == 2):
             util.link_data[str(message.author.id)][int(command_args[1])-1] = ''
             await message.reply("Link for period " + command_args[1] + " has been deleted")
             util.print_log("link_data/edit", f"{message.author.id} has deleted class period {command_args[1]}")
