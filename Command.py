@@ -58,10 +58,10 @@ class Change_Am_Pm_week(Command):
         command_args = message.content.split(' ')
         if(await util.check_for_role(args[0], util.ROLE_VOLUNTEER, message.author.id)):
             if(command_args[1] == 'am'):
-                am_pm_week = 0
+                util.am_pm_week = 0
             elif(command_args[1] == 'pm'):
-                am_pm_week = 1
-            util.print_log("am_pm_week/edit", f"{message.author.id} has adjusted am_pm_week to {am_pm_week}")
+                util.am_pm_week = 1
+            util.print_log("am_pm_week/edit", f"{message.author.id} has adjusted am_pm_week to {util.am_pm_week}")
 
 class View_Links(Command):
     call = [">viewprofile", ">vp"]
