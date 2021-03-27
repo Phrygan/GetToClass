@@ -68,8 +68,6 @@ class View_Links(Command):
 
     @staticmethod
     async def run(message, *args):
-        print(message.author.id)
-
         try:
             msg='\n'.join([f"{period + 1}: {util.link_data[str(message.author.id)][period]}" for period in range(8)])
             await message.reply("Here is a list of all of your class zoom links:\n\n" + msg)

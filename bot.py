@@ -68,14 +68,21 @@ async def on_message(message):
             await command.run(message, client)
 
 def main():
-    print("Discord bot booting (this may take a few seconds)...")
-    discord_bot_thread = Thread(
-        target=client.run, 
-        args=(util.get_discord_key(), ),
-        daemon=True)
-    discord_bot_thread.start()
-    admin_terminal()
+
+    loop = asyncio.get_event_loop()
+    loop.create_task(client.start(util.get_discord_key()))
+    Thread(target=loop.run_forever())
+
+    # print("Discord bot booting (this may take a few seconds)...")
+    # discord_bot_thread = Thread(
+    #     target=client.run, 
+    #     args=(util.get_discord_key(), ),
+    #     daemon=True)
+    # discord_bot_thread.start()
+    # admin_terminal()
     
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
+
+main()
 
