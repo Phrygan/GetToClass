@@ -29,7 +29,7 @@ ADMIN_COMMAND_LOG_TYPE = "Admin Command"
 ADMIN_SUPPORTED_VARIABLES = locals()
 
 am_pm_week = 0
-is_enabled = true
+is_enabled = True
 
 def update_link_data(func, *args):
     async def wrapper_update_link_data(method, *args):
