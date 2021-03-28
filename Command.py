@@ -1,5 +1,6 @@
 import asyncio
 import util
+import discord
 
 class Command():
     commands = []
@@ -61,7 +62,7 @@ class Change_Am_Pm_week(Command):
                 util.am_pm_week = 0
             elif(command_args[1] == 'pm'):
                 util.am_pm_week = 1
-            await message.reply("Am_pm_week adjusted to " + util.am_pm_week)
+            await message.reply("Am_pm_week adjusted to " + str(util.am_pm_week))
             util.print_log("am_pm_week/edit", f"{message.author.id} has adjusted am_pm_week to {util.am_pm_week}")
 
 class View_Links(Command):
@@ -69,11 +70,17 @@ class View_Links(Command):
 
     @staticmethod
     async def run(message, *args):
-        try:
-            msg='\n'.join([f"{period + 1}: {util.link_data[str(message.author.id)][period]}" for period in range(8)])
-            await message.reply("Here is a list of all of your class zoom links:\n\n" + msg)
-        except:
-            await message.reply("User not found in GET TO CLASS Database! Do >createprofile first and add links!")
+        links = discord.Embed(
+            title = "All Links",
+            colour = discord.Colour.red()
+        )
+        i=0
+        for link in util.link_data[str(message.author.id)]:
+            links.add_field(name=f'Period {i+1}', value=f'Link: {link}', inline=False)
+            i += 1
+        await message.reply(embed=links)
+        # except:
+        #     await message.reply("User not found in GET TO CLASS Database! Do >createprofile first and add links!")
 
 class disable_enable(Command):
     call = [">enable", ">e", ">d", "disable"]
@@ -86,7 +93,7 @@ class disable_enable(Command):
                 util.is_enabled = True
             elif command_args[1] == "false":
                 util.is_enabled = False
-            await message.reply("is_enabled is " + util.is_enabled)
+            await message.reply("is_enabled is " + str(util.is_enabled))
 
 Command.commands = Command.__subclasses__()
 
