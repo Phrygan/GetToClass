@@ -15,29 +15,30 @@ async def send_interval_message():
     await client.wait_until_ready()
     interval = 60
     while not client.is_closed():
-        timeFormatted = datetime.datetime.now().strftime("%H:%M")
-        currentBlock = None
-        for y in range(len(util.BLOCK_TIMES)):
-            if util.BLOCK_TIMES[y] == timeFormatted:
-                currentBlock = y + 1
-                break
-        if currentBlock:
-            currentPeriod = util.block_to_period(currentBlock)
-            if currentPeriod:
-                util.print_log("currentPeriod/change", f"Current Period is now {currentPeriod}")
-                for userid in util.link_data.keys():
-                    util.print_log("message", f"messaging {userid} their class link")
-                    classLink = util.link_data[userid][currentPeriod-1]
-                    userprofile = await client.fetch_user(userid)
-                    dm_embed = discord.Embed(
-                        title = 'JOIN YOUR CLASS HERE!',
-                        colour = discord.Colour.blue()
-                    )
-                    dm_embed.add_field(name=f'Period {currentPeriod}', value=f'Link: {classLink}', inline=True)
-                    try:
-                        await userprofile.send(embed=dm_embed)
-                    except:
-                        util.print_log("error/blocked", f"Person causing problem is {userid}")
+        if(util.is_enabled):
+            timeFormatted = datetime.datetime.now().strftime("%H:%M")
+            currentBlock = None
+            for y in range(len(util.BLOCK_TIMES)):
+                if util.BLOCK_TIMES[y] == timeFormatted:
+                    currentBlock = y + 1
+                    break
+            if currentBlock:
+                currentPeriod = util.block_to_period(currentBlock)
+                if currentPeriod:
+                    util.print_log("currentPeriod/change", f"Current Period is now {currentPeriod}")
+                    for userid in util.link_data.keys():
+                        util.print_log("message", f"messaging {userid} their class link")
+                        classLink = util.link_data[userid][currentPeriod-1]
+                        userprofile = await client.fetch_user(userid)
+                        dm_embed = discord.Embed(
+                            title = 'JOIN YOUR CLASS HERE!',
+                            colour = discord.Colour.blue()
+                        )
+                        dm_embed.add_field(name=f'Period {currentPeriod}', value=f'Link: {classLink}', inline=True)
+                        try:
+                            await userprofile.send(embed=dm_embed)
+                        except:
+                            util.print_log("error/blocked", f"Person causing problem is {userid}")
         await asyncio.sleep(interval)
                 
 def admin_terminal():

@@ -61,6 +61,7 @@ class Change_Am_Pm_week(Command):
                 util.am_pm_week = 0
             elif(command_args[1] == 'pm'):
                 util.am_pm_week = 1
+            await message.reply("Am_pm_week adjusted to " + util.am_pm_week)
             util.print_log("am_pm_week/edit", f"{message.author.id} has adjusted am_pm_week to {util.am_pm_week}")
 
 class View_Links(Command):
@@ -73,6 +74,19 @@ class View_Links(Command):
             await message.reply("Here is a list of all of your class zoom links:\n\n" + msg)
         except:
             await message.reply("User not found in GET TO CLASS Database! Do >createprofile first and add links!")
+
+class disable_enable(Command):
+    call = [">enable", ">e", ">d", "disable"]
+
+    @staticmethod
+    async def run(message, *args):
+        if(await util.check_for_role(args[0], util.ROLE_VOLUNTEER, message.author.id)):
+            command_args = message.content.split(' ')
+            if command_args[1] == "true":
+                util.is_enabled = True
+            elif command_args[1] == "false":
+                util.is_enabled = False
+            await message.reply("is_enabled is " + util.is_enabled)
 
 Command.commands = Command.__subclasses__()
 
