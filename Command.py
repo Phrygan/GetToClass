@@ -83,7 +83,7 @@ class View_Links(Command):
         #     await message.reply("User not found in GET TO CLASS Database! Do >createprofile first and add links!")
 
 class disable_enable(Command):
-    call = [">enable", ">e", ">d", "disable"]
+    call = [">enable", ">e", ">d", ">disable"]
 
     @staticmethod
     async def run(message, *args):
