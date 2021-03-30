@@ -1,5 +1,6 @@
 import json
 import datetime
+import random
 
 ROLE_VOLUNTEER = 811698025600122942
 GUILD_ID = 799773078557163541
@@ -28,8 +29,13 @@ BLOCK_PERIOD_DATA = [
 ADMIN_COMMAND_LOG_TYPE = "Admin Command"
 ADMIN_SUPPORTED_VARIABLES = locals()
 
+MAX_INT = 10000
+
 am_pm_week = 0
 is_enabled = True
+
+colors = [0xff62ff, 0x95ff00, 0x00d5ff, 0xe89816, 0xaa8be7, 0x04a979, 0xac4158, 0xdeb5ee, 0xecf9de, 0x3fdbf9, 0x329c5f, 0xaf373c]
+colors_rarity = [1, 5, 10, 50, 90, 200, 500, 1000, 2000, 5000, 7500, 10000]
 
 def update_link_data(func, *args):
     async def wrapper_update_link_data(method, *args):
@@ -77,3 +83,9 @@ def print_log(log_type, log_message):
     log_file = open(LOG_FILE_DIR, "a")
     log_file.write(f"[{datetime.datetime.now().strftime('%x')} | {datetime.datetime.now().strftime('%X')}] [{log_type}]: {log_message}\n")
     log_file.close()
+
+def get_color():
+    random_int = random.randint(1,MAX_INT)
+    for i in range(len(colors_rarity)):
+        if(random_int < colors_rarity[i]):
+            return colors[i]

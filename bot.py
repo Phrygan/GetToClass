@@ -32,7 +32,7 @@ async def send_interval_message():
                         userprofile = await client.fetch_user(userid)
                         dm_embed = discord.Embed(
                             title = 'JOIN YOUR CLASS HERE!',
-                            colour = discord.Colour.blue()
+                            colour = hex(util.get_color())
                         )
                         dm_embed.add_field(name=f'Period {currentPeriod}', value=f'Link: {classLink}', inline=True)
                         try:
@@ -86,4 +86,3 @@ def main():
 #     main()
 
 main()
-
