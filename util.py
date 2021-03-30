@@ -30,6 +30,7 @@ ADMIN_COMMAND_LOG_TYPE = "Admin Command"
 ADMIN_SUPPORTED_VARIABLES = locals()
 
 MAX_INT = 10000
+PRINT_THRESHHOLD = 500
 
 am_pm_week = 0
 is_enabled = True
@@ -84,8 +85,10 @@ def print_log(log_type, log_message):
     log_file.write(f"[{datetime.datetime.now().strftime('%x')} | {datetime.datetime.now().strftime('%X')}] [{log_type}]: {log_message}\n")
     log_file.close()
 
-def get_color():
+def get_color(id):
     random_int = random.randint(1,MAX_INT)
     for i in range(len(colors_rarity)):
         if(random_int < colors_rarity[i]):
+            if(random_int < PRINT_THRESHHOLD):
+                print(f"Rare Color! {id} got the number {random_int}")
             return colors[i]
