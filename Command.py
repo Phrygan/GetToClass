@@ -72,7 +72,7 @@ class View_Links(Command):
     async def run(message, *args):
         links = discord.Embed(
             title = "All Links",
-            colour = discord.Colour.red()
+            colour = util.get_color(message.author.id)
         )
         i=0
         for link in util.link_data[str(message.author.id)]:
