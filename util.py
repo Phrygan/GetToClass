@@ -8,6 +8,8 @@ GUILD_ID = 799773078557163541
 LINKDATA_FILE = 'link_data.json'
 LOG_FILE_DIR = 'log.txt'
 
+USER_SETTINGS_FILE = "user_settings.json"
+
 BLOCK_TIMES = ["07:57", "08:57", "09:57", "10:57", "13:07", "13:52"]
 BLOCK_PERIOD_DATA = [ 
     [
@@ -57,9 +59,28 @@ def edit_link_data():
         json_file.write(json.dumps(link_data, indent=4))
         # json.dump(link_data, indent=4)
 
+def update_user_settings(func, *args):
+    async def wrapper_update_user_settings(method, *args):
+        await func(method, args)
+        edit_user_settings()
+    return wrapper_update_user_settings
+
+def read_user_settings():
+    with open(USER_SETTINGS_FILE) as json_file:
+        user_settings_json = json_file.read()
+        user_settings = json.loads(user_settings_json)
+        return user_settings
+
+user_settings = read_user_settings()
+
+def edit_user_settings():
+    with open(USER_SETTINGS_FILE, 'w+') as json_file:
+        json_file.write(json.dumps(user_settings, indent=4))
+
 def block_to_period(block):
     time_week_day = datetime.datetime.now().strftime("%w")
     if(time_week_day == 0 or time_week_day == 6):
+        print_log("Bug #1", f"time_week_day: {time_week_day}")
         return 
     try:
         return BLOCK_PERIOD_DATA[am_pm_week][int(time_week_day)-1][block-1]

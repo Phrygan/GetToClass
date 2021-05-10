@@ -10,6 +10,7 @@ class Create_Profile(Command):
 
     @staticmethod
     @util.update_link_data
+    @util.update_user_settings
     async def run(message, *args):
         if str(message.author.id) not in util.link_data:
             util.link_data[str(message.author.id)] = ["" for i in range(8)]
@@ -19,7 +20,7 @@ class Create_Profile(Command):
             await message.reply("You already have a profile silly!")
 
 class Set_Link(Command):
-    call = [">setlink", ">sl", "addlink"]
+    call = [">setlink", ">sl"]
 
     @staticmethod
     @util.update_link_data
@@ -94,6 +95,20 @@ class disable_enable(Command):
             elif command_args[1] == "false":
                 util.is_enabled = False
             await message.reply("is_enabled is " + str(util.is_enabled))
+
+class Toggle_Hybrid(Command):
+    call = [">hybrid"]
+
+    @staticmethod
+    @util.update_user_settings
+    async def run(message, *args):
+        command_args = message.content.split(' ')
+        if command_args[1] == "true":
+            util.user_settings[message.author.id] = True
+        elif command_args[1] == "false":
+            util.user_settings[message.author.id] = False
+            
+            
 
 Command.commands = Command.__subclasses__()
 
