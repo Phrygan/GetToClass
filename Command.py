@@ -14,6 +14,7 @@ class Create_Profile(Command):
     async def run(message, *args):
         if str(message.author.id) not in util.link_data:
             util.link_data[str(message.author.id)] = ["" for i in range(8)]
+            util.user_settings[str(message.author.id)] = False
             await message.reply("Created your profile!")
             util.print_log("link_data/edit", f"{message.author.id} has initialized their profile")
         else:
@@ -107,6 +108,16 @@ class Toggle_Hybrid(Command):
             util.user_settings[message.author.id] = True
         elif command_args[1] == "false":
             util.user_settings[message.author.id] = False
+
+class Add_Alternate_Link(Command):
+    call = [">setalt", ">addalt", ">setalternatelink", ">sa"]
+    @staticmethod
+    @util.update_link_data
+    async def run(message, *args):
+        command_args = message.content.split(' ')
+        current_link = util.link_data[message.author.id]
+        new_data_value = f"{current_link} {command_args[1]}"
+        util.link_data = new_data_value
             
             
 
