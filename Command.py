@@ -108,6 +108,7 @@ class Toggle_Hybrid(Command):
             util.user_settings[message.author.id] = True
         elif command_args[1] == "false":
             util.user_settings[message.author.id] = False
+        message.reply(f"Hybrid: {util.user_settings[message.author.id]}")
 
 class Add_Alternate_Link(Command):
     call = [">setalt", ">addalt", ">setalternatelink", ">sa"]
@@ -115,10 +116,10 @@ class Add_Alternate_Link(Command):
     @util.update_link_data
     async def run(message, *args):
         command_args = message.content.split(' ')
-        current_link = util.link_data[message.author.id]
+        current_link = util.link_data[message.author.id][int(command_args[2])]
         new_data_value = f"{current_link} {command_args[1]}"
-        util.link_data = new_data_value
-            
+        util.link_data[message.author.id] = new_data_value
+        await message.reply("Added link! This will be sent along with the other link added to your profile.")
             
 
 Command.commands = Command.__subclasses__()
