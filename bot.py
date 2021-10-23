@@ -27,18 +27,26 @@ async def send_interval_message():
                 if currentPeriod:
                     util.print_log("currentPeriod/change", f"Current Period is now {currentPeriod}")
                     for userid in util.link_data.keys():
-                        util.print_log("message", f"messaging {userid} their class link")
-                        classLink = util.link_data[userid][currentPeriod-1]
-                        userprofile = await client.fetch_user(userid)
-                        dm_embed = discord.Embed(
-                            title = 'JOIN YOUR CLASS HERE!',
-                            colour = util.get_color(userid)
-                        )
-                        dm_embed.add_field(name=f'Period {currentPeriod}', value=f'Link: {classLink}', inline=True)
-                        try:
-                            await userprofile.send(embed=dm_embed)
-                        except:
-                            util.print_log("error/blocked", f"Person causing problem is {userid}")
+                        if(not util.user_settings[userid] or (util.user_settings[userid] and currentBlock > 4)):
+                            util.print_log("message", f"messaging {userid} their class link")
+                            classLink = util.link_data[userid][currentPeriod-1]
+                            userprofile = await client.fetch_user(userid)
+                            dm_embed = discord.Embed(
+                                title = 'JOIN YOUR CLASS HERE!',
+                                colour = util.get_color(userid)
+                            )
+                            if(len(classLink.content.split(' ')) > 1):
+                                class_link_list = classLink.content.split(' ')
+                                dm_embed.add_field(name=f'Period {currentPeriod}', value=f'Link: {class_link_list[0]}', inline=True)
+                                for class_link_input_embed in class_link_list:
+                                    if(class_link_input_embed != class_link_list[0]):
+                                        dm_embed.add_field(name=f'Alternate Link[s]', value=f'Link: {class_link_list[0]}', inline=True)
+                            else:
+                                dm_embed.add_field(name=f'Period {currentPeriod}', value=f'Link: {classLink}', inline=True)
+                            try:
+                                await userprofile.send(embed=dm_embed)
+                            except:
+                                util.print_log("error/blocked", f"Person causing problem is {userid}")
         await asyncio.sleep(interval)
 
 #hewwow

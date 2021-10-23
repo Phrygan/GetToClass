@@ -10,16 +10,18 @@ class Create_Profile(Command):
 
     @staticmethod
     @util.update_link_data
+    @util.update_user_settings
     async def run(message, *args):
         if str(message.author.id) not in util.link_data:
             util.link_data[str(message.author.id)] = ["" for i in range(8)]
+            util.user_settings[str(message.author.id)] = False
             await message.reply("Created your profile!")
             util.print_log("link_data/edit", f"{message.author.id} has initialized their profile")
         else:
             await message.reply("You already have a profile silly!")
 
 class Set_Link(Command):
-    call = [">setlink", ">sl", "addlink"]
+    call = [">setlink", ">sl"]
 
     @staticmethod
     @util.update_link_data
@@ -94,6 +96,31 @@ class disable_enable(Command):
             elif command_args[1] == "false":
                 util.is_enabled = False
             await message.reply("is_enabled is " + str(util.is_enabled))
+
+class Toggle_Hybrid(Command):
+    call = [">hybrid"]
+
+    @staticmethod
+    @util.update_user_settings
+    async def run(message, *args):
+        command_args = message.content.split(' ')
+        if command_args[1] == "true":
+            util.user_settings[message.author.id] = True
+        elif command_args[1] == "false":
+            util.user_settings[message.author.id] = False
+        message.reply(f"Hybrid: {util.user_settings[message.author.id]}")
+
+class Add_Alternate_Link(Command):
+    call = [">setalt", ">addalt", ">setalternatelink", ">sa"]
+    @staticmethod
+    @util.update_link_data
+    async def run(message, *args):
+        command_args = message.content.split(' ')
+        current_link = util.link_data[message.author.id][int(command_args[2])]
+        new_data_value = f"{current_link} {command_args[1]}"
+        util.link_data[message.author.id] = new_data_value
+        await message.reply("Added link! This will be sent along with the other link added to your profile.")
+            
 
 Command.commands = Command.__subclasses__()
 
