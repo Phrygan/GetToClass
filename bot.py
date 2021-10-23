@@ -40,7 +40,9 @@ async def send_interval_message():
                         except:
                             util.print_log("error/blocked", f"Person causing problem is {userid}")
         await asyncio.sleep(interval)
-                
+
+#hewwow
+
 def admin_terminal():
     while not client.is_closed():
         admin_in = input()
